@@ -24,6 +24,8 @@ Route::prefix('admin')->group(function () {
         Route::get('add-user', [AdminController::class, 'adduser'])->name('admin.adduser');
         Route::post('add-user', [AdminController::class, 'adduserSubmit'])->name('admin.adduserSubmit');
 
+        // Route::get('user/{user_id}/view', [AdminController::class, 'viewUser'])->name('admin.viewuser');
+        Route::delete('/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('admin.deleteuser');
         Route::post('logout', [AdminController::class, 'logout'])->name('admin.logout');
     });
 });

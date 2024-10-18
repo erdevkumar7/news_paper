@@ -86,9 +86,9 @@
                             <div class="col-md-4 col-sm-4 ">
                                 <label for="billing_name"> Name * </label>
                                 <input type="text" class="form-control" name="billing_name" id="billing_name"
-                                    value="{{ old('billing_name') }}" oninput="removeError('billing_name')">
+                                    value="{{ old('billing_name') }}" oninput="removeError('billing_nameErr')">
                                 @error('billing_name')
-                                <span class="text-danger" id="billing_name">{{ $message }}</span>
+                                <span class="text-danger" id="billing_nameErr">{{ $message }}</span>
                                 @enderror
                             </div>
                             {{-- address --}}

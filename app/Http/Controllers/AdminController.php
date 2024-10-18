@@ -94,10 +94,23 @@ class AdminController extends Controller
         $user = User::create($validateData);
 
         if ($user) {
-            return redirect()->route('admin.dashboard')->with('success', 'User Added Successfully!');
+            return redirect()->route('admin.alluser')->with('success', 'User Added Successfully!');
         } else {
             return redirect()->back()->with('error', 'Failed to add User. Please try again.');
         }
+    }
+
+    public function viewUser($user_id){
+        return view('admin-user-manage.view');
+    }
+
+    public function deleteUser($id)
+    {
+        $user = DB::table('users')->where('id', $id)->delete();
+        if ($user) {
+            return redirect()->route('admin.alluser')->with('success', 'User deleted successfully');
+        };
+        return redirect()->back()->with('error', 'user not Deleted');
     }
 
 
