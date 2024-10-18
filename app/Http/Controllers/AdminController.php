@@ -100,8 +100,66 @@ class AdminController extends Controller
         }
     }
 
-    public function viewUser($user_id){
-        return view('admin-user-manage.view');
+    public function viewUser($user_id)
+    {
+        $user = User::find($user_id);
+        if (!$user) {
+            return redirect()->back()->with('error', 'No User Found!');
+        }
+
+        return view('admin-user-manage.view-user', compact('user'));
+    }
+
+    //todo: admin edit_user_form
+    public function editUser($user_id)
+    {
+        $user = User::find($user_id);
+        if (!$user) {
+            return redirect()->back()->with('error', 'No User Found!');
+        }
+        return view('admin-user-manage.edit-user', compact('user'));
+    }
+
+
+    public function editUserSubmit(Request $request, $user_id)
+    {
+        $user = User::find($user_id);
+        if (!$user) {
+            return redirect()->back()->with('error', 'No User Found!');
+        }
+
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:70',
+            'address' => 'required|string|max:100',
+            'state' => 'required',
+            'city' => 'required',
+            'zip_code' => 'required|numeric',
+
+            'billing_name' => 'required|string|max:70',
+            'billing_address' => 'required|string|max:100',
+            'billing_state' => 'required',
+            'billing_city' => 'required',
+            'billing_zip_code' => 'required|numeric',
+
+            'email' => 'required|unique:users,email,' . $user->id,
+            'password' => 'nullable|min:8|confirmed', // Password is optional during updates
+        ]);
+
+
+        if ($request->filled('password')) {
+            // $validatedData['original_password'] = $validatedData['password'];
+            $validatedData['password'] = Hash::make($request->password);
+        } else {
+            unset($validatedData['password']);
+        }
+
+        $user->update($validatedData);
+
+        if ($user) {
+            return redirect()->route('admin.alluser')->with('success', 'User Updated Successfully!');
+        } else {
+            return redirect()->back()->with('error', 'Failed to add User. Please try again.');
+        }
     }
 
     public function deleteUser($id)

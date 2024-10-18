@@ -50,7 +50,7 @@
                                             <td>{{ $user->city ?? 'Not Available' }}</< /td>
                                             <td>{{ $user->status ? 'Active' : 'In-active' }}</< /td>
                                             <td>
-                                                <a href="">
+                                                <a href="{{route('admin.edituser', $user->id)}}">
                                                     <button data-toggle="tooltip" data-placement="top"
                                                         title="Edit">
                                                         <i class="fa fa-edit"></i>
@@ -71,7 +71,7 @@
                                             </td>
 
                                             <td>
-                                                <a href="">
+                                                <a href="{{route('admin.viewuser', $user->id)}}">
                                                     <button type="button"
                                                         class="btn btn-primary">view</button></a>
                                             </td>
